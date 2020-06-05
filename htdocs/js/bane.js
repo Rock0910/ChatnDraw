@@ -5,16 +5,19 @@ window.addEventListener("load",()=>
 	let html=document.querySelector("html");
 	html.style.backgroundColor = "black";
 	
-	let topLayout = genElement("topLayout","div");
-	topLayout.style.height = "10vh";
-	topLayout.style.width = "100vh";
-	topLayout.style.display = "flex";
-	topLayout.style.justifyContent = "center";
-	topLayout.style.alignItems = "center";
-	topLayout.style.margin = "auto";
-	document.body.appendChild(topLayout);
 	
-	let navMenu =genMenu();
+	let scrollStyle = document.createElement("scrollStyle");
+	scrollStyle.type = "text/css";
+	scrollStyle.innerHTML = ".scrollStyle::-webkit-scrollbar {display:none;}";
+	document.head.appendChild(scrollStyle);
+	html.className = "scrollStyle";
+
+	//let scrollbar =window.getComputedStyle(html,"::-webkit-scrollbar");
+	
+	let body = document.body;
+	body.style.height = "100vh";
+	body.style.width = "100vh";
+	body.style.margin = "0";
 	
 	let topCtn = genElement("topCtn","div");
 	topCtn.style.height = "10vh";
@@ -36,7 +39,7 @@ window.addEventListener("load",()=>
 	let topTitle = genElement("topTitle","h1");
 	topTitle.innerText = "這是啥小阿~~~~";
 	topTitle.style.color = "white";
-	topLayout.appendChild(topCtn);
+	body.appendChild(topCtn);
 	topCtn.appendChild(topBtn);
 	topCtn.appendChild(topTitle);
 	//topTitle是在topCtn裡面的文字，使用了h1的屬性
@@ -45,14 +48,24 @@ window.addEventListener("load",()=>
 	{
 		if(document.querySelector("#navMenu"))
 		{
-			topLayout.removeChild(document.querySelector("#navMenu"));
+			bodyLayout.removeChild(document.querySelector("#navMenu"));
 		}
 		else
 		{
-			let x =document.querySelector("#topCtn");
-			topLayout.insertBefore(navMenu,x);
+			bodyLayout.insertBefore(navMenu,bodyLayout.firstChild);
 		}
 	});
+	
+	let bodyLayout = genElement("bodyLayout","div");
+	bodyLayout.style.height = "90vh";
+	bodyLayout.style.width = "100vh";
+	//bodyLayout.style.display = "flex";
+	//bodyLayout.style.justifyContent = "center";
+	//bodyLayout.style.alignItems = "center";
+	bodyLayout.style.margin = "auto";
+	body.appendChild(bodyLayout);
+	
+	let navMenu =genMenu();
 });
 
 function genElement(x,y){
@@ -64,8 +77,13 @@ function genElement(x,y){
 
 function genMenu(){
 	let navMenu = genElement("navMenu","nav");
+	navMenu.style.backgroundColor = "gray";
 	navMenu.style.color = "white";
+	navMenu.style.height = "vh";
+	navMenu.style.width = "10vw";
 	let a = document.createElement("ul");
+	a.style.padding = "1vw";
+	a.style.paddingTop = "2vh";
 	
 	let b = document.createElement("div");
 	let ba = document.createElement("a");
@@ -84,6 +102,6 @@ function genMenu(){
 	a.appendChild(b);
 	a.appendChild(c);
 	navMenu.appendChild(a);
-	topLayout.appendChild(navMenu);
+	bodyLayout.appendChild(navMenu);
 	return navMenu;
 }

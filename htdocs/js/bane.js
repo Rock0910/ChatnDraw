@@ -83,6 +83,9 @@ window.addEventListener("load",()=>
 	mainBoard.style.marginLeft = "3vw";
 	mainBoard.style.display = "flex";
 	mainBoard.style.justifyContent = "space-between";
+	mainBoard.style.borderStyle = "solid";
+	mainBoard.style.borderWidth = "0.2vh";
+	mainBoard.style.borderColor = "cyan";
 	
 	let boardBlock = genElement("boardBlock","div");
 	
@@ -104,6 +107,9 @@ function genElement(x,y){
 
 function genMenu(){
 	let navMenu = genElement("navMenu","nav");
+	navMenu.style.borderStyle = "solid";
+	navMenu.style.borderWidth = "0.2vh";
+	navMenu.style.borderColor = "white";
 	navMenu.style.display = "flex";
 	navMenu.style.flexDirection = "column";
 	navMenu.style.justifyContent = "space-between";
@@ -202,7 +208,7 @@ function genChat(){
 	let chatCtn = document.createElement("div");
 	let chatInputCtn = document.createElement("div");
 	let chatDisplay = document.createElement("div");
-	let chatInput = document.createElement("div");
+	let chatInput = document.createElement("textarea");
 	let chatBtn = document.createElement("button");
 	//chatCtn.style.backgroundColor = "cyan";
 	chatCtn.style.height = "inherit";
@@ -215,6 +221,9 @@ function genChat(){
 	chatInput.style.backgroundColor = "white";
 	chatInput.style.height = "5vh";
 	chatInput.style.width = "17vw";
+	chatInput.style.resize = "none";
+	chatInput.style.padding = "0";
+	chatInput.style.border = "0";
 	
 	chatBtn.style.height = "5vh";
 	chatBtn.style.width = "3vw";

@@ -6,14 +6,8 @@ window.addEventListener("load",()=>
 	html.style.backgroundColor = "black";
 	html.style.overflow = "hidden";
 	
-	let styleList = document.createElement("div");
-	let scrollStyle = document.createElement("style");
-	scrollStyle.type = "text/css";
-	scrollStyle.innerHTML = "html::-webkit-scrollbar {display:none;}";
-	document.head.appendChild(styleList);
-	styleList.appendChild(scrollStyle);
+	let styleList = genStyleList();
 	
-	//let scrollbar =window.getComputedStyle(html,"::-webkit-scrollbar");
 	let body = document.body;
 	body.style.height = "100vh";
 	body.style.width = "100vw";
@@ -87,9 +81,18 @@ window.addEventListener("load",()=>
 	mainBoard.style.height = "85vh";
 	mainBoard.style.width = "80vw";
 	mainBoard.style.marginLeft = "3vw";
-	mainBoard.style.marginRight = "3vw";
+	mainBoard.style.display = "flex";
+	mainBoard.style.justifyContent = "space-between";
+	
+	let boardBlock = genElement("boardBlock","div");
 	
 	bodyLayout.appendChild(mainBoard);
+	
+	let paintBoard = genBoard();
+	let chatCtn = genChat();
+	mainBoard.appendChild(paintBoard);
+	mainBoard.appendChild(boardBlock);
+	mainBoard.appendChild(chatCtn);
 });
 
 function genElement(x,y){
@@ -174,12 +177,55 @@ function genMenu(){
 	return navMenu;
 }
 
+function genStyleList(){
+	let styleList = document.createElement("div");
+	let scrollStyle = document.createElement("style");
+	
+	scrollStyle.type = "text/css";
+	scrollStyle.innerHTML = "html::-webkit-scrollbar {display:none;}";
+	document.head.appendChild(styleList);
+	styleList.appendChild(scrollStyle);
+	//let scrollbar =window.getComputedStyle(html,"::-webkit-scrollbar");
+	return styleList;
+}
+
 function genBoard(){
 	let paintBoard = document.createElement("canvas");
 	let ctx = paintBoard.getContext("2d");
+	paintBoard.style.backgroundColor = "white";
+	paintBoard.style.height = "85vh";
+	paintBoard.style.width = "60vw";
 	return paintBoard;
 }
 
 function genChat(){
-	let chat = document.createElement("div");
+	let chatCtn = document.createElement("div");
+	let chatInputCtn = document.createElement("div");
+	let chatDisplay = document.createElement("div");
+	let chatInput = document.createElement("div");
+	let chatBtn = document.createElement("button");
+	//chatCtn.style.backgroundColor = "cyan";
+	chatCtn.style.height = "inherit";
+	chatCtn.style.width = "20vw";
+	
+	chatDisplay.style.backgroundColor = "cyan";
+	chatDisplay.style.height = "80vh";
+	chatDisplay.style.width = "inherit";
+	
+	chatInput.style.backgroundColor = "white";
+	chatInput.style.height = "5vh";
+	chatInput.style.width = "17vw";
+	
+	chatBtn.style.height = "5vh";
+	chatBtn.style.width = "3vw";
+	chatBtn.innerText = "送出";
+	
+	chatInputCtn.style.display = "flex";
+	chatInputCtn.style.flexDirection = "row";
+	
+	chatCtn.appendChild(chatDisplay);
+	chatCtn.appendChild(chatInputCtn);
+	chatInputCtn.appendChild(chatInput);
+	chatInputCtn.appendChild(chatBtn);
+	return chatCtn;
 }

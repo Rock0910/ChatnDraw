@@ -106,13 +106,13 @@ function genMenu(){
 	navMenu.style.justifyContent = "space-between";
 	navMenu.style.alignContent = "space-between";
 	navMenu.style.backgroundColor = "gray";
-	navMenu.style.color = "white";
+	navMenu.style.color = "gray";
 	navMenu.style.height = "85vh";
 	navMenu.style.width = "10vw";
 	navMenu.style.outlineWidth = "1vh";
 	
 	let a = document.createElement("ul");
-	a.style.display = "flex";
+	a.style.display ="flex";
 	a.style.justifyContent = "center";
 	a.style.flexDirection = "column";
 	a.style.padding = "0vw";
@@ -121,10 +121,15 @@ function genMenu(){
 	
 	let b = document.createElement("div");
 	b.innerText="Chat";
+	b.style.backgroundColor = "cyan";
 	b.style.color = "inherit";
 	b.style.textDecoration = "underline";
 	b.style.textAlign = "center";
 	b.style.fontSize = "2vw";
+	
+	b.addEventListener("click",()=>{
+		console.log("Chat have been Clicked!");
+	});
 	/*let ba = document.createElement("a");
 	ba.innerText="Chat";
 	ba.style.color = "inherit";
@@ -133,9 +138,14 @@ function genMenu(){
 	
 	let c = document.createElement("div");
 	c.innerText="Paint";
+	c.style.backgroundColor = "white";
 	c.style.color = "inherit";
 	c.style.textDecoration = "underline";
 	c.style.textAlign = "center";
+	
+	c.addEventListener("click",()=>{
+		console.log("Paint have been Clicked!");
+	});
 	/*let ca = document.createElement("a");
 	ca.innerText="Paint";
 	ca.style.color = "inherit";
@@ -144,12 +154,17 @@ function genMenu(){
 	
 	let d = document.createElement("div");
 	d.innerText="Setting";
+	d.style.backgroundColor = "cyan";
 	d.style.color = "inherit";
 	d.style.textDecoration = "underline";
 	d.style.textAlign = "center";
 	d.style.padding = "1vw";
-	d.style.paddingBottom = "4vh";
+	d.style.paddingBottom = "2vh";
 	d.style.fontSize = "2vw";
+	
+	d.addEventListener("click",()=>{
+		console.log("Setting have been Clicked!");
+	});
 	
 	a.appendChild(b);
 	a.appendChild(c);

@@ -173,3 +173,13 @@ function genMenu(){
 	bodyLayout.appendChild(navMenu);
 	return navMenu;
 }
+
+function genBoard(){
+	let paintBoard = document.createElement("canvas");
+	let ctx = paintBoard.getContext("2d");
+	return paintBoard;
+}
+
+function genChat(){
+	let chat = document.createElement("div");
+}

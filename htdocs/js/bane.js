@@ -85,7 +85,7 @@ window.addEventListener("load",()=>
 	mainBoard.style.justifyContent = "space-between";
 	mainBoard.style.borderStyle = "solid";
 	mainBoard.style.borderWidth = "0.2vh";
-	mainBoard.style.borderColor = "cyan";
+	mainBoard.style.borderColor = "green";
 	
 	let boardBlock = genElement("boardBlock","div");
 	
@@ -183,18 +183,6 @@ function genMenu(){
 	return navMenu;
 }
 
-function genStyleList(){
-	let styleList = document.createElement("div");
-	let scrollStyle = document.createElement("style");
-	
-	scrollStyle.type = "text/css";
-	scrollStyle.innerHTML = "html::-webkit-scrollbar {display:none;}";
-	document.head.appendChild(styleList);
-	styleList.appendChild(scrollStyle);
-	//let scrollbar =window.getComputedStyle(html,"::-webkit-scrollbar");
-	return styleList;
-}
-
 function genBoard(){
 	let paintBoard = document.createElement("canvas");
 	let ctx = paintBoard.getContext("2d");
@@ -213,28 +201,95 @@ function genChat(){
 	//chatCtn.style.backgroundColor = "cyan";
 	chatCtn.style.height = "inherit";
 	chatCtn.style.width = "20vw";
+	chatCtn.style.borderStyle = "solid";
+	chatCtn.style.borderWidth = "0 0 0 0.2vh";
+	chatCtn.style.borderColor = "green";
 	
 	chatDisplay.style.backgroundColor = "cyan";
 	chatDisplay.style.height = "80vh";
 	chatDisplay.style.width = "inherit";
 	
 	chatInput.style.backgroundColor = "white";
-	chatInput.style.height = "5vh";
+	chatInput.style.height = "inherit";
 	chatInput.style.width = "17vw";
-	chatInput.style.resize = "none";
+	//chatInput.style.resize = "none";
 	chatInput.style.padding = "0";
 	chatInput.style.border = "0";
 	
-	chatBtn.style.height = "5vh";
+	chatInput.addEventListener("keydown",onEnterKeyDown);
+	
+	function onEnterKeyDown(){
+		let x = event.keyCode;
+		if(x == 13 && !event.shiftKey == true){
+				event.preventDefault();
+				console.log(chatInput.value);
+				console.log("Send");
+			}else{}
+}
+	
+	chatBtn.style.height = "inherit";
 	chatBtn.style.width = "3vw";
 	chatBtn.innerText = "送出";
 	
 	chatInputCtn.style.display = "flex";
+	chatInputCtn.style.height = "4.8vh";
 	chatInputCtn.style.flexDirection = "row";
+	chatInputCtn.style.borderStyle = "solid";
+	chatInputCtn.style.borderWidth = "0.2vh 0 0 0";
+	chatInputCtn.style.borderColor = "green";
 	
 	chatCtn.appendChild(chatDisplay);
 	chatCtn.appendChild(chatInputCtn);
 	chatInputCtn.appendChild(chatInput);
 	chatInputCtn.appendChild(chatBtn);
 	return chatCtn;
+}
+
+function genStyleList(){
+	let styleList = document.createElement("div");
+	
+	let scrollStyle = document.createElement("style");
+	scrollStyle.type = "text/css";
+	scrollStyle.innerHTML = "html::-webkit-scrollbar {display:none;}\
+	body::-webkit-scrollbar {display:auto;}";
+	
+	let textareaStyle = document.createElement("style");
+	textareaStyle.type = "text/css";
+	textareaStyle.innerHTML = "textarea{\
+		-webkit-writing-mode: horizontal-tb !important;\
+		text-rendering: auto;\
+		color: -internal-light-dark-color(black, white);\
+		letter-spacing: normal;\
+		word-spacing: normal;\
+		text-transform: none;\
+		text-indent: 0px;\
+		text-shadow: none;\
+		display: inline-block;\
+		text-align: start;\
+		-webkit-appearance: textarea;\
+		background-color: white;\
+		-webkit-rtl-ordering: logical;\
+		flex-direction: column;\
+		resize: none;\
+		cursor: text;\
+		white-space: pre-wrap;\
+		overflow-wrap: break-word;\
+		margin: 0em;\
+		font: 400 13.3333px Arial;\
+		border-width: 0px;\
+		border-style: none;\
+		border-color: transparent;\
+		border-image: none;\
+		padding: 0px;}\
+		\
+	textarea:focus {\
+		outline: none !important;\
+		border:none;\
+		box-shadow: 0;}";
+	
+	document.head.appendChild(styleList);
+	styleList.appendChild(textareaStyle);
+	styleList.appendChild(scrollStyle);
+	//let scrollbar =window.getComputedStyle(html,"::-webkit-scrollbar");
+	return styleList;
 }

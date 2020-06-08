@@ -91,9 +91,9 @@ window.addEventListener("load",()=>
 	
 	bodyLayout.appendChild(mainBoard);
 	
-	let paintBoard = genBoard();
+	let paintBoardCtn = genBoard();
 	let chatCtn = genChat();
-	mainBoard.appendChild(paintBoard);
+	mainBoard.appendChild(paintBoardCtn);
 	mainBoard.appendChild(boardBlock);
 	mainBoard.appendChild(chatCtn);
 });
@@ -184,12 +184,19 @@ function genMenu(){
 }
 
 function genBoard(){
-	let paintBoard = document.createElement("canvas");
+	let paintBoardCtn = document.createElement("div");
+	paintBoardCtn.style.maxHeight = "85vh";
+	paintBoardCtn.style.maxWidth = "60vw";
+	paintBoardCtn.style.overflow = "auto";
+	let paintBoard = genElement("canvas","canvas");
 	let ctx = paintBoard.getContext("2d");
 	paintBoard.style.backgroundColor = "white";
 	paintBoard.style.height = "85vh";
 	paintBoard.style.width = "60vw";
-	return paintBoard;
+	
+	paintBoardCtn.appendChild(paintBoard);
+	
+	return paintBoardCtn;
 }
 
 function genChat(){

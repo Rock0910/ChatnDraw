@@ -74,8 +74,6 @@ window.addEventListener("load",()=>
 	bodyLayout.style.margin = "auto";
 	body.appendChild(bodyLayout);
 	
-	let navMenu =genMenu();
-	
 	let mainBoard = genElement("mainBoard","div");
 	//mainBoard.style.backgroundColor = "gray";
 	mainBoard.style.height = "85vh";
@@ -96,6 +94,8 @@ window.addEventListener("load",()=>
 	mainBoard.appendChild(paintBoardCtn);
 	mainBoard.appendChild(boardBlock);
 	mainBoard.appendChild(chatCtn);
+	
+	let navMenu =genMenu();
 });
 
 function genElement(x,y){
@@ -136,8 +136,16 @@ function genMenu(){
 	b.style.textAlign = "center";
 	b.style.fontSize = "2vw";
 	
+
+	let chatCtn = document.getElementById("chatCtn");
 	b.addEventListener("click",()=>{
-		console.log("Chat have been Clicked!");
+		if (!document.getElementById("chatCtn")){
+			document.getElementById("mainBoard").appendChild(chatCtn);
+			console.log("Chat have been Shown!");
+		}else{
+			document.getElementById("mainBoard").removeChild(chatCtn);
+			console.log("Chat have been Hidden!");
+		}
 	});
 	/*let ba = document.createElement("a");
 	ba.innerText="Chat";
@@ -152,8 +160,15 @@ function genMenu(){
 	c.style.textDecoration = "underline";
 	c.style.textAlign = "center";
 	
+	let paintBoardCtn = document.getElementById("paintBoardCtn");
 	c.addEventListener("click",()=>{
-		console.log("Paint have been Clicked!");
+		if (!document.getElementById("paintBoardCtn")){
+			document.getElementById("mainBoard").insertBefore(paintBoardCtn,document.getElementById("boardBlock"));
+			console.log("Paint have been Shown!");
+		}else{
+			document.getElementById("mainBoard").removeChild(paintBoardCtn);
+			console.log("Paint have been Hidden!");
+		}
 	});
 	/*let ca = document.createElement("a");
 	ca.innerText="Paint";
@@ -179,15 +194,16 @@ function genMenu(){
 	a.appendChild(c);
 	navMenu.appendChild(a);
 	navMenu.appendChild(d);
-	bodyLayout.appendChild(navMenu);
+	bodyLayout.insertBefore(navMenu,bodyLayout.firstChild);
 	return navMenu;
 }
 
 function genBoard(){
-	let paintBoardCtn = document.createElement("div");
+	let paintBoardCtn = genElement("paintBoardCtn","div");
 	paintBoardCtn.style.maxHeight = "85vh";
 	paintBoardCtn.style.maxWidth = "60vw";
 	paintBoardCtn.style.overflow = "auto";
+	paintBoardCtn.style.backgroundColor = "white";
 	let paintBoard = genElement("canvas","canvas");
 	let ctx = paintBoard.getContext("2d");
 	paintBoard.style.backgroundColor = "white";
@@ -200,7 +216,7 @@ function genBoard(){
 }
 
 function genChat(){
-	let chatCtn = document.createElement("div");
+	let chatCtn = genElement("chatCtn","div");
 	let chatInputCtn = document.createElement("div");
 	let chatUserCtn = document.createElement("div");
 	let chatDisplay = document.createElement("textarea");
@@ -220,7 +236,7 @@ function genChat(){
 	//chatCtn.style.backgroundColor = "cyan";
 	
 	chatDisplay.style.backgroundColor = "cyan";
-	chatDisplay.style.height = "79vh";
+	chatDisplay.style.height = "78vh";
 	chatDisplay.readOnly = "true";
 	chatDisplay.style.width = "calc(inherit-4px)";
 	chatDisplay.style.padding = "2px";
@@ -229,21 +245,31 @@ function genChat(){
 	chatUserCtn.style.width = "17vw";
 	chatUserCtn.style.display = "flex";
 	chatUserCtn.style.flexDirection = "column";
-	chatUserCtn.style.height = "6vh";
+	chatUserCtn.style.height = "7vh";
 	chatUserCtn.style.borderStyle = "solid";
 	chatUserCtn.style.borderWidth = "0 0 0 0.1vh";
 	chatUserCtn.style.borderColor = "green";
 	
 	chatUsername.style.width = "17vw";
-	chatUsername.style.height = "3vh";
+	chatUsername.style.height = "4vh";
 	chatUsername.style.backgroundColor = "gray";
+	chatUsername.style.paddingTop = "2px";
 	chatUsername.style.paddingLeft = "2px";
-	chatUsername.style.lineHeight = "1";
+	chatUsername.style.fontSize = "8px";
+	chatUsername.style.overflow = "hidden";
+	
+	chatUsername.addEventListener("keydown",()=>{
+		let x = event.keyCode;
+		if(x == 13){
+				event.preventDefault();
+		}
+	});
 	
 	chatInput.style.backgroundColor = "white";
 	chatInput.style.height = "inherit";
 	chatInput.style.width = "17vw";
 	chatInput.style.paddingLeft = "2px";
+	chatInput.style.paddingTop = "2px";
 	//chatInput.style.resize = "none";
 	
 	chatInput.addEventListener("keydown",onEnterKeyDown);
@@ -276,7 +302,7 @@ function genChat(){
 	chatBtn.style.borderColor = "green";
 	
 	chatInputCtn.style.display = "flex";
-	chatInputCtn.style.height = "6vh";
+	chatInputCtn.style.height = "7vh";
 	chatInputCtn.style.flexDirection = "row";
 	chatInputCtn.style.borderStyle = "solid";
 	chatInputCtn.style.borderWidth = "0";

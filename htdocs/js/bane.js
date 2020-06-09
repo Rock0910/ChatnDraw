@@ -77,7 +77,7 @@ window.addEventListener("load",()=>
 	let navMenu =genMenu();
 	
 	let mainBoard = genElement("mainBoard","div");
-	mainBoard.style.backgroundColor = "gray";
+	//mainBoard.style.backgroundColor = "gray";
 	mainBoard.style.height = "85vh";
 	mainBoard.style.width = "80vw";
 	mainBoard.style.marginLeft = "3vw";
@@ -202,7 +202,7 @@ function genBoard(){
 function genChat(){
 	let chatCtn = document.createElement("div");
 	let chatInputCtn = document.createElement("div");
-	let chatDisplay = document.createElement("div");
+	let chatDisplay = document.createElement("textarea");
 	let chatInput = document.createElement("textarea");
 	let chatBtn = document.createElement("button");
 	//chatCtn.style.backgroundColor = "cyan";
@@ -211,10 +211,14 @@ function genChat(){
 	chatCtn.style.borderStyle = "solid";
 	chatCtn.style.borderWidth = "0 0 0 0.2vh";
 	chatCtn.style.borderColor = "green";
+	chatCtn.style.padding = "0.1vh";
+	//chatCtn.style.backgroundColor = "cyan";
 	
 	chatDisplay.style.backgroundColor = "cyan";
-	chatDisplay.style.height = "80vh";
+	chatDisplay.style.height = "79vh";
+	chatDisplay.readOnly = "true";
 	chatDisplay.style.width = "inherit";
+	//chatDisplay.style = "display: flex; height: 4.8vh; flex-direction: row; border-style: solid; border-width: 0.2vh 0px 0px; border-color: green;"
 	
 	chatInput.style.backgroundColor = "white";
 	chatInput.style.height = "inherit";
@@ -229,8 +233,12 @@ function genChat(){
 		let x = event.keyCode;
 		if(x == 13 && !event.shiftKey == true){
 				event.preventDefault();
-				console.log(chatInput.value);
+				let msg = chatInput.value;
+				if (msg != ""){
+					chatInput.value = "";
+					chatDisplay.value += msg+"\n";
 				console.log("Send");
+				}
 			}else{}
 }
 	
@@ -242,7 +250,7 @@ function genChat(){
 	chatInputCtn.style.height = "4.8vh";
 	chatInputCtn.style.flexDirection = "row";
 	chatInputCtn.style.borderStyle = "solid";
-	chatInputCtn.style.borderWidth = "0.2vh 0 0 0";
+	chatInputCtn.style.borderWidth = "0";
 	chatInputCtn.style.borderColor = "green";
 	
 	chatCtn.appendChild(chatDisplay);

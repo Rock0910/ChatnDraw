@@ -287,9 +287,13 @@ function genChat(){
 			
 	function sendMsg(){
 		let msg = chatInput.value;
+		let nowTime = new Date();
 				if (msg != ""){
 					chatInput.value = "";
-					chatDisplay.value += msg+"\n";
+					chatDisplay.value += nowTime.getHours()+":"+
+					(nowTime.getMinutes()<10?"0":"")+nowTime.getMinutes()+
+					" "+(chatUsername.value == ""?"匿名":chatUsername.value)+
+					": "+msg+"\n";
 				console.log("Send");
 	}
 }

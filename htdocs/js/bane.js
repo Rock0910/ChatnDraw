@@ -107,6 +107,7 @@ function genElement(x,y){
 
 function genMenu(){
 	let navMenu = genElement("navMenu","nav");
+	navMenu.style.userSelect = "none";
 	navMenu.style.borderStyle = "solid";
 	navMenu.style.borderWidth = "0.2vh";
 	navMenu.style.borderColor = "white";
@@ -187,6 +188,15 @@ function genMenu(){
 	d.style.fontSize = "2vw";
 	
 	d.addEventListener("click",()=>{
+		if(document.querySelector("html").style.backgroundColor == "white"){
+			document.querySelector("html").style.backgroundColor = "black";
+			document.querySelector("#navMenu").style.borderColor = "white";
+			document.querySelector("#topTitle").style.color = "white";
+		}else{
+			document.querySelector("html").style.backgroundColor = "white";
+			document.querySelector("#navMenu").style.borderColor = "black";
+			document.querySelector("#topTitle").style.color = "black";
+		}
 		console.log("Setting have been Clicked!");
 	});
 	

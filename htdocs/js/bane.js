@@ -250,6 +250,7 @@ function genChat(){
 	chatUserCtn.style.borderWidth = "0 0 0 0.1vh";
 	chatUserCtn.style.borderColor = "green";
 	
+	chatUsername.style.color = "white";
 	chatUsername.style.width = "17vw";
 	chatUsername.style.height = "4vh";
 	chatUsername.style.backgroundColor = "gray";
@@ -294,6 +295,7 @@ function genChat(){
 					(nowTime.getMinutes()<10?"0":"")+nowTime.getMinutes()+
 					" "+(chatUsername.value == ""?"匿名":chatUsername.value)+
 					": "+msg+"\n";
+					chatDisplay.scrollTop = chatDisplay.scrollHeight;
 				console.log("Send");
 	}
 }

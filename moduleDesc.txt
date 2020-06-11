@@ -1,0 +1,20 @@
+@babel/core 當作一個提供一個轉譯程式碼用的function,只有他自己沒用,要搭其他插件使用,跟preset有關的東西,設定要轉成目標的連接詞
+
+@babel/cli 可以從命令列讀取程式碼並編譯,也能在package裡面新增dependency等物件,之後要拿之前裝過的插件用npm可以一次自動安裝
+這邊順便提 --save 是存到 dependency 裡面之後安裝會自動取,--save-dev 是給開發者開發程式用的,使用者不用知道要怎樣轉譯,那就不需要給客戶端安裝了
+
+@babel/plugin-proposal-class-properties 讓babel知道class怎樣處理
+
+@babel/plugin-proposal-object-rest-spread 讓babel知道怎樣處理...(展開符號)要怎樣處理,雖然我還沒用過,但是...運算子看起來可以幫寫程式的人省很多時間!
+
+@babel/preset-env 這就是裝跟core跟cli那些有關的東西了,說過preset(個人理解是"事前設定目標"的意思)是一個連接詞,主要是後面的env,這個插件才有要怎樣轉成某種程式碼的內容
+
+@babel/preset-typescript 讓babel知道怎樣把程式碼轉成typescript
+
+core-js 為了程式碼對上下版本的相容性,像是Promise的語法,低版本不知是啥,這可以協助轉譯,或跟你說無法轉成哪個目標,然後就要去安裝他跟你說的東西了
+
+eslint 跟你說程式碼哪邊出錯了,可能是啥錯誤,因為你瀏覽器不一定會跟你說
+
+rollup-plugin-babel rollup打包程式碼成一個檔案,並轉譯成某個目標,像這邊就是處理babel處理出來的東西
+
+typescript 一種程式語言,參考javascript,並加入型別等等抽象、介面那些相關指令(好像就是java裡面的那些指令),學會未來處理能比較方便

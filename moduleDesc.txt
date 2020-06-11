@@ -15,6 +15,10 @@ core-js 為了程式碼對上下版本的相容性,像是Promise的語法,低版
 
 eslint 跟你說程式碼哪邊出錯了,可能是啥錯誤,因為你瀏覽器不一定會跟你說
 
+prettier-eslint-cli 上方加強版
+
+rollup
+
 rollup-plugin-babel rollup打包程式碼成一個檔案,並轉譯成某個目標,像這邊就是處理babel處理出來的東西
 
 typescript 一種程式語言,參考javascript,並加入型別等等抽象、介面那些相關指令(好像就是java裡面的那些指令),學會未來處理能比較方便

@@ -1,9 +1,9 @@
 import babel from 'rollup-plugin-babel';
 
 export default {
-	input: 'src/index.js',
+	input: 'src/bane.js',
 	output: {
-		file: 'out/draft.js',
+		file: 'out/bane.js',
 		format: 'iife',
 		sourcemap: 'true',
 	},

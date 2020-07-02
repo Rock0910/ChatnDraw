@@ -140,8 +140,9 @@
 	}
 
 	function Resize() {
-	  document.getElementById("canvas").height = paintBoardCtn.clientHeight;
-	  document.getElementById("canvas").width = paintBoardCtn.clientWidth;
+	  document.getElementById("canvas").height = 900; //paintBoardCtn.clientHeight;
+
+	  document.getElementById("canvas").width = 1440; //paintBoardCtn.clientWidth;
 	}
 
 	function genElement(x, y) {

@@ -10,23 +10,50 @@ ws.onclose =()=>{
 window.addEventListener("load",()=>
 {
 	genInterface();
+	
 	let Painter = document.getElementById("canvas").getContext("2d");
+	
 	ws.onmessage = function incoming(message){
 		let msg = JSON.parse(message.data);
 		//console.log(msg);
+		console.log(msg.type);
 		switch(msg.type){
 			case "userSentMsg":
 				let nowTime = new Date();
 				document.getElementById("chatDisplay").value += nowTime.getHours()+":"+
 					(nowTime.getMinutes()<10?"0":"")+nowTime.getMinutes()+
-					" "+msg.text;
+					" "+msg.text.x+" : "+msg.text.y+"\n";
 					document.getElementById("chatDisplay").scrollTop = document.getElementById("chatDisplay").scrollHeight;
 					console.log("Got Other's message");
+				break;
+					
 			case "userSentDrawing":
 				Painter.fillStyle = "#000000";
 				Painter.fillRect(msg.text.x,msg.text.y,9,9);
+				break;
+				
+			case "pastMessage":
+				let list = msg.text;
+				//let messageList = list.map(item => Object.values(item));
+				//console.log(messageList);
+				console.log(list[0].x,list[0].y);
+				let textDisplay = document.getElementById("chatDisplay");
+				textDisplay.value += "歷史訊息(最多十筆)\n\n";
+				list.forEach(object =>{
+					textDisplay.value += 
+					" "+object.x+" : "+object.y+"\n";
+					textDisplay.scrollTop = textDisplay.scrollHeight;
+				});
+				textDisplay.value += "\n以上為歷史訊息\n\n";
+				break;
+				
+			default:
+				console.log("FAIL : "+msg.type);
+				break;
 		}
 	}
+	let chatLoaded = {type: "chatLoaded"};
+	ws.send(JSON.stringify(chatLoaded));
 });
 
 function  genInterface(){
@@ -362,9 +389,11 @@ function genChat(){
 	
 	function sendMyMsg(){
 		if (chatInput.value != ""){
+			let x = (chatUsername.value == ""?"匿名":chatUsername.value);
+			let y = chatInput.value;
 			let msg = {
 			type: "userSentMsg",
-			text: (chatUsername.value == ""?"匿名":chatUsername.value)+" : "+ chatInput.value +"\n"
+			text: {x,y},
 			//id : clientID,
 			//date: Date.now()
 			};

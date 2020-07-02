@@ -16,21 +16,47 @@
 	  var Painter = document.getElementById("canvas").getContext("2d");
 
 	  ws.onmessage = function incoming(message) {
-	    var msg = JSON.parse(message.data);
-	    console.log(msg);
+	    var msg = JSON.parse(message.data); //console.log(msg);
+
+	    console.log(msg.type);
 
 	    switch (msg.type) {
 	      case "userSentMsg":
 	        var nowTime = new Date();
-	        document.getElementById("chatDisplay").value += nowTime.getHours() + ":" + (nowTime.getMinutes() < 10 ? "0" : "") + nowTime.getMinutes() + " " + msg.text;
+	        document.getElementById("chatDisplay").value += nowTime.getHours() + ":" + (nowTime.getMinutes() < 10 ? "0" : "") + nowTime.getMinutes() + " " + msg.text.x + " : " + msg.text.y + "\n";
 	        document.getElementById("chatDisplay").scrollTop = document.getElementById("chatDisplay").scrollHeight;
 	        console.log("Got Other's message");
+	        break;
 
 	      case "userSentDrawing":
 	        Painter.fillStyle = "#000000";
 	        Painter.fillRect(msg.text.x, msg.text.y, 9, 9);
+	        break;
+
+	      case "pastMessage":
+	        var list = msg.text; //let messageList = list.map(item => Object.values(item));
+	        //console.log(messageList);
+
+	        console.log(list[0].x, list[0].y);
+	        var textDisplay = document.getElementById("chatDisplay");
+	        textDisplay.value += "歷史訊息(最多十筆)\n\n";
+	        list.forEach(function (object) {
+	          textDisplay.value += " " + object.x + " : " + object.y + "\n";
+	          textDisplay.scrollTop = textDisplay.scrollHeight;
+	        });
+	        textDisplay.value += "\n以上為歷史訊息\n\n";
+	        break;
+
+	      default:
+	        console.log("FAIL : " + msg.type);
+	        break;
 	    }
 	  };
+
+	  var chatLoaded = {
+	    type: "chatLoaded"
+	  };
+	  ws.send(JSON.stringify(chatLoaded));
 	});
 
 	function genInterface() {
@@ -337,9 +363,14 @@
 
 	  function sendMyMsg() {
 	    if (chatInput.value != "") {
+	      var x = chatUsername.value == "" ? "匿名" : chatUsername.value;
+	      var y = chatInput.value;
 	      var msg = {
 	        type: "userSentMsg",
-	        text: (chatUsername.value == "" ? "匿名" : chatUsername.value) + " : " + chatInput.value + "\n" //id : clientID,
+	        text: {
+	          x: x,
+	          y: y
+	        } //id : clientID,
 	        //date: Date.now()
 
 	      };

@@ -13,7 +13,7 @@ window.addEventListener("load",()=>
 	let Painter = document.getElementById("canvas").getContext("2d");
 	ws.onmessage = function incoming(message){
 		let msg = JSON.parse(message.data);
-		console.log(msg);
+		//console.log(msg);
 		switch(msg.type){
 			case "userSentMsg":
 				let nowTime = new Date();

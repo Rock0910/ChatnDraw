@@ -10,6 +10,19 @@ ws.onclose =()=>{
 window.addEventListener("load",()=>
 {
 	genInterface();
+	ws.onmessage = function incoming(message){
+		let msg = JSON.parse(message.data);
+		console.log(msg);
+		switch(msg.type){
+			case "userSentMsg":
+				let nowTime = new Date();
+				document.getElementById("chatDisplay").value += nowTime.getHours()+":"+
+					(nowTime.getMinutes()<10?"0":"")+nowTime.getMinutes()+
+					" "+msg.text;
+					document.getElementById("chatDisplay").scrollTop = document.getElementById("chatDisplay").scrollHeight;
+					console.log("GOT");
+		}
+	}
 });
 
 function  genInterface(){
@@ -268,9 +281,9 @@ function genChat(){
 	let chatCtn = genElement("chatCtn","div");
 	let chatInputCtn = document.createElement("div");
 	let chatUserCtn = document.createElement("div");
-	let chatDisplay = document.createElement("textarea");
-	let chatUsername = document.createElement("textarea");
-	let chatInput = document.createElement("textarea");
+	let chatDisplay = genElement("chatDisplay","textarea");
+	let chatUsername = genElement("chatUsername","textarea");
+	let chatInput = genElement("chatInput","textarea");
 	let chatBtn = document.createElement("button");
 	//chatCtn.style.backgroundColor = "cyan";
 	chatCtn.style.height = "inherit";
@@ -324,17 +337,33 @@ function genChat(){
 	
 	chatInput.addEventListener("keydown",onEnterKeyDown);
 	chatBtn.addEventListener("click",()=>{
-		sendMsg();
+		sendMyMsg();
 	});
 	
 	function onEnterKeyDown(){
 		let x = event.keyCode;
 		if(x == 13 && !event.shiftKey == true){
 				event.preventDefault();
-				sendMsg();
+				sendMyMsg();
 		}
 	}
-			
+	
+	function sendMyMsg(){
+		if (chatInput.value != ""){
+			let msg = {
+			type: "userSentMsg",
+			text: (chatUsername.value == ""?"匿名":chatUsername.value)+" : "+ chatInput.value +"\n"
+			//id : clientID,
+			//date: Date.now()
+			};
+			ws.send(JSON.stringify(msg));
+			chatInput.value = "";
+		}
+		else{
+			console.log("至少打個訊息進去吧?");
+		}
+	}
+/*
 	function sendMsg(){
 		let msg = chatInput.value;
 		let nowTime = new Date();
@@ -348,6 +377,7 @@ function genChat(){
 				console.log("Send");
 	}
 }
+*/
 	
 	chatBtn.style.height = "inherit";
 	chatBtn.style.width = "3vw";

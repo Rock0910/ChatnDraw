@@ -13,6 +13,19 @@
 
 	window.addEventListener("load", function () {
 	  genInterface();
+
+	  ws.onmessage = function incoming(message) {
+	    var msg = JSON.parse(message.data);
+	    console.log(msg);
+
+	    switch (msg.type) {
+	      case "userSentMsg":
+	        var nowTime = new Date();
+	        document.getElementById("chatDisplay").value += nowTime.getHours() + ":" + (nowTime.getMinutes() < 10 ? "0" : "") + nowTime.getMinutes() + " " + msg.text;
+	        document.getElementById("chatDisplay").scrollTop = document.getElementById("chatDisplay").scrollHeight;
+	        console.log("GOT");
+	    }
+	  };
 	});
 
 	function genInterface() {
@@ -246,9 +259,9 @@
 	  var chatCtn = genElement("chatCtn", "div");
 	  var chatInputCtn = document.createElement("div");
 	  var chatUserCtn = document.createElement("div");
-	  var chatDisplay = document.createElement("textarea");
-	  var chatUsername = document.createElement("textarea");
-	  var chatInput = document.createElement("textarea");
+	  var chatDisplay = genElement("chatDisplay", "textarea");
+	  var chatUsername = genElement("chatUsername", "textarea");
+	  var chatInput = genElement("chatInput", "textarea");
 	  var chatBtn = document.createElement("button"); //chatCtn.style.backgroundColor = "cyan";
 
 	  chatCtn.style.height = "inherit";
@@ -297,7 +310,7 @@
 
 	  chatInput.addEventListener("keydown", onEnterKeyDown);
 	  chatBtn.addEventListener("click", function () {
-	    sendMsg();
+	    sendMyMsg();
 	  });
 
 	  function onEnterKeyDown() {
@@ -305,21 +318,40 @@
 
 	    if (x == 13 && !event.shiftKey == true) {
 	      event.preventDefault();
-	      sendMsg();
+	      sendMyMsg();
 	    }
 	  }
 
-	  function sendMsg() {
-	    var msg = chatInput.value;
-	    var nowTime = new Date();
+	  function sendMyMsg() {
+	    if (chatInput.value != "") {
+	      var msg = {
+	        type: "userSentMsg",
+	        text: (chatUsername.value == "" ? "匿名" : chatUsername.value) + " : " + chatInput.value + "\n" //id : clientID,
+	        //date: Date.now()
 
-	    if (msg != "") {
+	      };
+	      ws.send(JSON.stringify(msg));
 	      chatInput.value = "";
-	      chatDisplay.value += nowTime.getHours() + ":" + (nowTime.getMinutes() < 10 ? "0" : "") + nowTime.getMinutes() + " " + (chatUsername.value == "" ? "匿名" : chatUsername.value) + ": " + msg + "\n";
-	      chatDisplay.scrollTop = chatDisplay.scrollHeight;
-	      console.log("Send");
+	    } else {
+	      console.log("至少打個訊息進去吧?");
 	    }
 	  }
+	  /*
+	  	function sendMsg(){
+	  		let msg = chatInput.value;
+	  		let nowTime = new Date();
+	  				if (msg != ""){
+	  					chatInput.value = "";
+	  					chatDisplay.value += nowTime.getHours()+":"+
+	  					(nowTime.getMinutes()<10?"0":"")+nowTime.getMinutes()+
+	  					" "+(chatUsername.value == ""?"匿名":chatUsername.value)+
+	  					": "+msg+"\n";
+	  					chatDisplay.scrollTop = chatDisplay.scrollHeight;
+	  				console.log("Send");
+	  	}
+	  }
+	  */
+
 
 	  chatBtn.style.height = "inherit";
 	  chatBtn.style.width = "3vw";

@@ -1,10 +1,24 @@
 (function () {
 	'use strict';
 
+	var ws = new WebSocket('ws://localhost:8080');
+
+	ws.onopen = function () {
+	  console.log('open');
+	};
+
+	ws.onclose = function () {
+	  console.log('closed');
+	};
+
 	window.addEventListener("load", function () {
+	  genInterface();
+	});
+
+	function genInterface() {
 	  var html = document.querySelector("html");
 	  html.style.backgroundColor = "black";
-	  html.style.overflow = "hidden";
+	  html.style.overflow = "auto";
 	  var styleList = genStyleList();
 	  var body = document.body;
 	  body.style.height = "100vh";
@@ -78,7 +92,13 @@
 	  mainBoard.appendChild(boardBlock);
 	  mainBoard.appendChild(chatCtn);
 	  var navMenu = genMenu();
-	});
+	  Resize(); //body.onresize = function(){Resize()};
+	}
+
+	function Resize() {
+	  document.getElementById("canvas").height = paintBoardCtn.clientHeight;
+	  document.getElementById("canvas").width = paintBoardCtn.clientWidth;
+	}
 
 	function genElement(x, y) {
 	  var cache = document.createElement(y);
@@ -187,13 +207,37 @@
 	  var paintBoardCtn = genElement("paintBoardCtn", "div");
 	  paintBoardCtn.style.maxHeight = "85vh";
 	  paintBoardCtn.style.maxWidth = "60vw";
-	  paintBoardCtn.style.overflow = "auto";
-	  paintBoardCtn.style.backgroundColor = "white";
+	  paintBoardCtn.style.height = "85vh";
+	  paintBoardCtn.style.width = "60vw";
+	  paintBoardCtn.style.overflow = "hidden";
+	  paintBoardCtn.style.backgroundColor = "gray";
 	  var paintBoard = genElement("canvas", "canvas");
 	  var ctx = paintBoard.getContext("2d");
 	  paintBoard.style.backgroundColor = "white";
-	  paintBoard.style.height = "85vh";
-	  paintBoard.style.width = "60vw";
+	  paintBoard.addEventListener("mousedown", onMousedown);
+
+	  function onMousedown(event) {
+	    draw();
+	    paintBoard.addEventListener("mousemove", onMousemove);
+	    paintBoard.addEventListener("mouseup", onMouseup);
+	  }
+
+	  function onMousemove(event) {
+	    draw();
+	  }
+
+	  function draw() {
+	    var x = event.offsetX;
+	    var y = event.offsetY;
+	    console.log(x, y);
+	    ctx.fillStyle = "#000000";
+	    ctx.fillRect(x, y, 9, 9);
+	  }
+
+	  function onMouseup(event) {
+	    paintBoard.removeEventListener('mousemove', onMousemove);
+	  }
+
 	  paintBoardCtn.appendChild(paintBoard);
 	  return paintBoardCtn;
 	}

@@ -9,6 +9,7 @@ exports.config = (config) => {
 		'.js':'application/javascript',
 		'.json':'application/json',
 		'.png':'image/png',
+		'.ico':'image/png'
 	};
 	
 	FS.readdir(PREFIX,(err,files) =>{

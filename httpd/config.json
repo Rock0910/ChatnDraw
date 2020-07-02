@@ -1,4 +1,5 @@
 {
 	"/":"../htdocs/index.html",
-	"/js/bane.js":"../htdocs/js/bane.js"
+	"/js/bane.js":"../htdocs/js/bane.js",
+	"/favicon.ico":"../htdocs/favicon/Rock.png"
 }

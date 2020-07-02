@@ -7,8 +7,8 @@
 	
 	
 	
-	const WebSocket	= require('ws');
-	const wss = new WebSocket.Server({port:8080});
+	const WebSocket = require('ws');
+	const wss = new WebSocket.Server({port:8080,clientTracking:true});
 	wss.on('connection',function connection(ws){
 		console.log('CONNECTED A SHET');
 		
@@ -16,8 +16,13 @@
 		console.log('CLOSED');
 		});
 		
-		ws.on('message',function incoming(message){
-		console.log(message);
-		});
+		ws.onmessage = function incoming(message){
+			let msg = JSON.stringify(JSON.parse(message.data));
+			let clients = wss.clients;
+			clients.forEach(client =>{
+				client.send(msg);
+			});
+			console.log("sent");
+		};
 	});
 })();

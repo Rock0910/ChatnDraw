@@ -10,6 +10,7 @@ ws.onclose =()=>{
 window.addEventListener("load",()=>
 {
 	genInterface();
+	let Painter = document.getElementById("canvas").getContext("2d");
 	ws.onmessage = function incoming(message){
 		let msg = JSON.parse(message.data);
 		console.log(msg);
@@ -20,7 +21,10 @@ window.addEventListener("load",()=>
 					(nowTime.getMinutes()<10?"0":"")+nowTime.getMinutes()+
 					" "+msg.text;
 					document.getElementById("chatDisplay").scrollTop = document.getElementById("chatDisplay").scrollHeight;
-					console.log("GOT");
+					console.log("Got Other's message");
+			case "userSentDrawing":
+				Painter.fillStyle = "#000000";
+				Painter.fillRect(msg.text.x,msg.text.y,9,9);
 		}
 	}
 });
@@ -250,25 +254,33 @@ function genBoard(){
 	paintBoardCtn.style.overflow = "hidden";
 	paintBoardCtn.style.backgroundColor = "gray";
 	let paintBoard = genElement("canvas","canvas");
-	let ctx = paintBoard.getContext("2d");
+	//let ctx = paintBoard.getContext("2d");
 	paintBoard.style.backgroundColor = "white";
 	
 	paintBoard.addEventListener("mousedown",onMousedown);
 	function onMousedown(event){
-		draw();
+		userSentDrawing();
 		paintBoard.addEventListener("mousemove",onMousemove);
 		paintBoard.addEventListener("mouseup",onMouseup);
 	}
 	function onMousemove(event){
-		draw();
+		userSentDrawing();
 	}
-	function draw(){
+	
+	function userSentDrawing(){
 		let x = event.offsetX;
 		let y = event.offsetY;
-		console.log(x,y);
-		ctx.fillStyle = "#000000";
-		ctx.fillRect(x,y,9,9);
+		let msg = {
+			type: "userSentDrawing",
+			text: {x,y},
+			//id : clientID,
+			//date: Date.now()
+			};
+			console.log(msg);
+			ws.send(JSON.stringify(msg));
+		
 	}
+	
 	function onMouseup(event){
 		paintBoard.removeEventListener('mousemove',onMousemove);
 	}

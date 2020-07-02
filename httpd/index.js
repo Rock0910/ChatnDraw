@@ -22,7 +22,7 @@
 			clients.forEach(client =>{
 				client.send(msg);
 			});
-			console.log("sent");
+			//console.log("sent");
 		};
 	});
 })();

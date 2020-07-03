@@ -324,6 +324,7 @@
 	    userSentDrawing();
 	    paintBoard.addEventListener("mousemove", onMousemove);
 	    paintBoard.addEventListener("mouseup", onMouseup);
+	    paintBoard.addEventListener("mouseleave", onMouseleave);
 	  }
 
 	  function onMousemove(event) {
@@ -351,6 +352,10 @@
 	  }
 
 	  function onMouseup(event) {
+	    paintBoard.removeEventListener('mousemove', onMousemove);
+	  }
+
+	  function onMouseleave(event) {
 	    paintBoard.removeEventListener('mousemove', onMousemove);
 	  }
 

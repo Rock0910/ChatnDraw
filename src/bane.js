@@ -355,6 +355,7 @@ function genBoard(){
 		userSentDrawing();
 		paintBoard.addEventListener("mousemove",onMousemove);
 		paintBoard.addEventListener("mouseup",onMouseup);
+		paintBoard.addEventListener("mouseleave",onMouseleave);
 	}
 	function onMousemove(event){
 		userSentDrawing();
@@ -377,6 +378,10 @@ function genBoard(){
 	}
 	
 	function onMouseup(event){
+		paintBoard.removeEventListener('mousemove',onMousemove);
+	}
+	
+	function onMouseleave(event){
 		paintBoard.removeEventListener('mousemove',onMousemove);
 	}
 	paintBoardCtn.appendChild(paintBoard);

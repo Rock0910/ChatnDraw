@@ -28,8 +28,8 @@ window.addEventListener("load",()=>
 				break;
 					
 			case "userSentDrawing":
-				Painter.fillStyle = "#000000";
-				Painter.fillRect(msg.text.x,msg.text.y,9,9);
+				Painter.fillStyle = msg.text.penColor;
+				Painter.fillRect(msg.text.x,msg.text.y,msg.text.penSize,msg.text.penSize);
 				break;
 				
 			case "pastMessage":
@@ -46,6 +46,10 @@ window.addEventListener("load",()=>
 				});
 				textDisplay.value += "\n以上為歷史訊息\n\n";
 				break;
+			
+			case "WipeBoard":
+				document.getElementById("canvas").getContext("2d").clearRect(0,0,canvas.width,canvas.height);
+				console.log("WipedBoard");
 				
 			default:
 				console.log("FAIL : "+msg.type);
@@ -264,10 +268,72 @@ function genMenu(){
 		console.log("Setting have been Clicked!");
 	});
 	
+	let e = document.createElement("div");
+	e.innerText="清空畫布";
+	e.style.backgroundColor = "cyan";
+	e.style.color = "inherit";
+	//e.style.textDecoration = "underline";
+	e.style.textAlign = "center";
+	e.style.padding = "1vw";
+	e.style.paddingBottom = "2vh";
+	e.style.fontSize = "1.8vw";
+	
+	e.addEventListener("click",()=>{
+		let msg = {
+			type: "WipeBoard",
+			//text: {x,y},
+			//id : clientID,
+			//date: Date.now()
+			};
+			console.log(msg);
+			ws.send(JSON.stringify(msg));
+		console.log("CleanBoard have been Clicked!");
+	});
+	
+	let f = document.createElement("div");
+	f.innerText="↓筆顏色↓";
+	f.style.backgroundColor = "cyan";
+	f.style.color = "inherit";
+	f.style.textAlign = "center";
+	f.style.padding = "1vw";
+	f.style.paddingBottom = "2vh";
+	f.style.fontSize = "1.8vw";
+	
+	let penColorValue = genElement("penColorValue","textarea");
+	penColorValue.value = "Black";
+	penColorValue.style.backgroundColor = "white";
+	penColorValue.style.paddingLeft = "2px";
+	penColorValue.style.paddingTop = "2px";
+	penColorValue.style.textAlign = "center";
+	penColorValue.style.fontSize = "14px";
+	
+	let j = document.createElement("div");
+	j.innerText="↓大小(px)↓";
+	j.style.backgroundColor = "cyan";
+	j.style.color = "inherit";
+	j.style.textAlign = "center";
+	j.style.padding = "1vw";
+	j.style.paddingBottom = "2vh";
+	j.style.fontSize = "1.8vw";
+	
+	let penSizeValue = genElement("penSizeValue","textarea");
+	penSizeValue.value = "9";
+	penSizeValue.style.backgroundColor = "white";
+	penSizeValue.style.paddingLeft = "2px";
+	penSizeValue.style.paddingTop = "2px";
+	penSizeValue.style.textAlign = "center";
+	penSizeValue.style.fontSize = "14px";
+	
+	
 	a.appendChild(b);
 	a.appendChild(c);
+	a.appendChild(e);
+	a.appendChild(f);
+	a.appendChild(penColorValue);
+	a.appendChild(j);
+	a.appendChild(penSizeValue);
 	navMenu.appendChild(a);
-	navMenu.appendChild(d);
+	navMenu.appendChild(d);	
 	bodyLayout.insertBefore(navMenu,bodyLayout.firstChild);
 	return navMenu;
 }
@@ -297,9 +363,11 @@ function genBoard(){
 	function userSentDrawing(){
 		let x = event.offsetX;
 		let y = event.offsetY;
+		let penColor = document.getElementById("penColorValue").value+=(document.getElementById("penColorValue").value)==""?"Black":"";
+		let penSize = document.getElementById("penSizeValue").value+=(document.getElementById("penSizeValue").value)==""?"9":"";
 		let msg = {
 			type: "userSentDrawing",
-			text: {x,y},
+			text: {x,y,penColor,penSize},
 			//id : clientID,
 			//date: Date.now()
 			};
